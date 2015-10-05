@@ -9,6 +9,8 @@ import com.taylorbest.flappydemo.Game;
  */
 public class Bird {
     private final static int GRAVITY = -15;
+    private final static int MOVEMENT = 100;
+
     private Vector3 position;
     private Vector3 velocity;
     private Texture bird;
@@ -33,7 +35,7 @@ public class Bird {
             velocity.add(0, GRAVITY, 0);
 
         velocity.scl(dt);
-        position.add(0, velocity.y, 0);
+        position.add(MOVEMENT * dt, velocity.y, 0);
         if (position.y < 0)
             position.y = 0;
 

@@ -3,22 +3,36 @@ package com.taylorbest.flappydemo.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 import com.taylorbest.flappydemo.Game;
 import com.taylorbest.flappydemo.sprites.Bird;
+import com.taylorbest.flappydemo.sprites.Tube;
 
 /**
  * Created by chadley on 10/5/2015.
  */
 public class PlayState extends State {
+    private static final int TUBE_SPACING=125;
+    private static final int TUBE_COUNT = 4;
 
     private Bird bird;
     private Texture background;
 
+    private Array<Tube> tubes;
+
     public PlayState(GameStateManager gsm) {
         super(gsm);
         bird = new Bird(50,100);
+
+
         background = new Texture("bg.png");
         cam.setToOrtho(false, Game.WIDTH/2, Game.HEIGHT/2);
+
+        tubes = new Array<Tube>();
+        for (int i =1; i<= TUBE_COUNT; i++) {
+            tubes.add(new Tube(i * (TUBE_SPACING + Tube.TUBE_WIDTH)));
+        }
+
     }
 
     @Override
@@ -34,6 +48,13 @@ public class PlayState extends State {
 
         handleInput();
         bird.update(dt);
+        cam.position.x = bird.getPosition().x + 80;
+        for (Tube tube: tubes) {
+            if (cam.position.x - (cam.viewportWidth/2) > tube.getPosTopTube().x + tube.getTopTube().getWidth()) {
+                tube.reposition(tube.getPosTopTube().x + ((Tube.TUBE_WIDTH + TUBE_SPACING) * TUBE_COUNT));
+            }
+        }
+        cam.update();
 
     }
 
@@ -41,8 +62,12 @@ public class PlayState extends State {
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
-        sb.draw(background, cam.position.x - (cam.viewportWidth /2), 0);
+        sb.draw(background, cam.position.x - (cam.viewportWidth / 2), 0);
         sb.draw(bird.getBird(), bird.getPosition().x, bird.getPosition().y);
+        for (Tube tube: tubes) {
+            sb.draw(tube.getTopTube(), tube.getPosTopTube().x, tube.getPosTopTube().y);
+            sb.draw(tube.getBottomTube(), tube.getPosBotTube().x, tube.getPosBotTube().y);
+        }
         sb.end();
 
     }
