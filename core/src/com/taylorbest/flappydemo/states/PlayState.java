@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.taylorbest.flappydemo.Game;
+import com.taylorbest.flappydemo.sprites.Animation;
 import com.taylorbest.flappydemo.sprites.Bird;
 import com.taylorbest.flappydemo.sprites.Tube;
 
@@ -21,6 +22,8 @@ public class PlayState extends State {
     private Texture background;
     private Texture ground;
     private Vector2 groundPos1, groundPos2;
+
+
 
 
 
