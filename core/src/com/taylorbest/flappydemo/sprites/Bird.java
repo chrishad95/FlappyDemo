@@ -1,6 +1,7 @@
 package com.taylorbest.flappydemo.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.taylorbest.flappydemo.Game;
 
@@ -15,6 +16,8 @@ public class Bird {
     private Vector3 velocity;
     private Texture bird;
 
+    private Rectangle bounds;
+
     public Vector3 getPosition() {
         return position;
     }
@@ -27,6 +30,8 @@ public class Bird {
         position = new Vector3(x, y , 0);
         velocity = new Vector3(0, 0 , 0);
         bird = new Texture("bird.png");
+        bounds = new Rectangle(x, y, bird.getWidth(), bird.getHeight());
+
 
     }
 
@@ -40,10 +45,19 @@ public class Bird {
             position.y = 0;
 
         velocity.scl(1/dt);
+        bounds.setPosition(position.x, position.y);
+
 
     }
 
     public void jump() {
         velocity.y = 250;
+    }
+
+    public Rectangle getBounds() {
+        return bounds;
+    }
+    public void dispose() {
+        bird.dispose();
     }
 }
